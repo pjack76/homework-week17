@@ -27,7 +27,7 @@ db.Workout.create({ name: "Fitness Regiments" })
 
 //load default html page
 app.get("/", (req, res) => {
-  res.send(index.html);
+  res.send("public/index.html");
 });
 
 app.get("/notes", (req, res) => {
@@ -40,7 +40,7 @@ app.get("/notes", (req, res) => {
     });
 });
 
-app.get("/user", (req, res) => {
+app.get("/workout:id", (req, res) => {
   db.User.find({})
     .then(dbUser => {
       res.json(dbUser);
@@ -50,7 +50,7 @@ app.get("/user", (req, res) => {
     });
 });
 
-app.post("/submit", ({ body }, res) => {
+app.post("/add", ({ body }, res) => {
   db.Note.create(body)
     .then(({ _id }) => db.User.findOneAndUpdate({}, { $push: { notes: _id } }, { new: true }))
     .then(dbUser => {
@@ -61,7 +61,7 @@ app.post("/submit", ({ body }, res) => {
     });
 });
 
-app.get("/populateduser", (req, res) => {
+app.get("/stats", (req, res) => {
   db.User.find({})
     .populate("notes")
     .then(dbUser => {
