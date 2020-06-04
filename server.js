@@ -15,7 +15,7 @@ app.use(express.json());
 
 app.use(express.static("public"));
 
-mongoose.connect(process.env.MONGODB_URI || "mongodb://<dbuser>:<dbpassword>@ds127982.mlab.com:27982/heroku_742rdd7c", { useNewUrlParser: true });
+mongoose.connect(process.env.MONGODB_URI || "mongodb://jack:jack123@ds127982.mlab.com:27982/heroku_742rdd7c", { useNewUrlParser: true, useUnifiedTopology: true });
 
 db.Exercise.create({ name: "Fitness Regiments" })
   .then(dbFitness => {
