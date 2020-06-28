@@ -30,8 +30,8 @@ app.get("/exercise", (req, res) => {
   res.sendFile(path.join(__dirname, "./public", "exercise.html"));
 });
 
-app.post("/api/workouts", (req, res) => {
-  db.Exercise.create({})
+app.get("/api/workouts", (req, res) => {
+  db.Workout.find({})
     .then(dbWorkout => {
       res.json(dbWorkout);
     })
@@ -40,50 +40,34 @@ app.post("/api/workouts", (req, res) => {
     });
 });
 
-app.get("/exercise?", (req, res) => {
-  db.Workout.find({}).populate("exercises")
+app.post("/api/workouts", ({body}, res) => {
+  console.log("test");
+  db.Workout.create({})
     .then(dbWorkout => {
-      res.send(dbWorkout);
+      res.json(dbWorkout);
+     // res.jasn(body);
     })
     .catch(err => {
       res.json(err);
     });
 });
 
-app.post("/exercise", (req, res) => {
-  db.Workout.find({}).populate("exercises")
-    .then(dbExercise => {
-      res.send(dbExercise);
-    })
-    .catch(err => {
-      res.json(err);
-    });
-});
-
-app.get("api/workouts", (req, res) => {
-  db.Exercise.find({})
+app.put("/api/workouts/:id", ({ body, params }, res) => {
+console.log('params', params.id)
+    db.Workout.findByIdAndUpdate(params.id, { $push: { exercises: body } }, { new: true, runValidators: true  })
     .then(dbWorkout => {
+      //console.log("from DB", dbWorkout)
       res.json(dbWorkout);
     })
     .catch(err => {
-      res.json(err);
-    });
-});
-
-app.put("/api/workouts/:id", ({ body }, res) => {
-  db.Exercise.create(body)
-    .then(({ _id }) => db.Workout.findOneAndUpdate({}, { $push: { exercises: _id } }, { new: true }))
-    .then(dbWorkout => {
-      res.json(dbWorkout);
-    })
-    .catch(err => {
+    console.log("err =>", err)
       res.json(err);
     });
 });
 
 app.get("/api/workouts/range", (req, res) => {
   db.Workout.find({})
-    .populate("exercises")
+    .populate("Workout")
     .then(dbWorkout => {
       res.json(dbWorkout);
     })
