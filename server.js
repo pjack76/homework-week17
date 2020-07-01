@@ -45,7 +45,7 @@ app.post("/api/workouts", ({body}, res) => {
   db.Workout.create({})
     .then(dbWorkout => {
       res.json(dbWorkout);
-     // res.jasn(body);
+     // res.json(body);
     })
     .catch(err => {
       res.json(err);
@@ -65,9 +65,12 @@ console.log('params', params.id)
     });
 });
 
-app.get("/api/workouts/range", (req, res) => {
+app.get("/stats", (req, res) => {
+  res.sendFile(path.join(__dirname, "./public", "stats.html"));
+});
+
+app.get("/api/stats", (req, res) => {
   db.Workout.find({})
-    .populate("Workout")
     .then(dbWorkout => {
       res.json(dbWorkout);
     })

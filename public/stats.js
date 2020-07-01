@@ -1,15 +1,12 @@
 // get all workout data from back-end
 
-fetch("/api/workouts/range")
+fetch("/api/stats")
   .then(response => {
     return response.json();
   })
   .then(data => {
     populateChart(data);
   });
-
-
-API.getWorkoutsInRange()
 
   function generatePalette() {
     const arr = [
@@ -33,6 +30,7 @@ API.getWorkoutsInRange()
 
   return arr;
   }
+  
 function populateChart(data) {
   let durations = duration(data);
   let pounds = calculateTotalWeight(data);
@@ -151,7 +149,7 @@ function populateChart(data) {
       labels: workouts,
       datasets: [
         {
-          label: "Excercises Performed",
+          label: "Exercises Performed",
           backgroundColor: colors,
           data: durations
         }
@@ -160,7 +158,7 @@ function populateChart(data) {
     options: {
       title: {
         display: true,
-        text: "Excercises Performed"
+        text: "Exercises Performed"
       }
     }
   });
@@ -171,7 +169,7 @@ function populateChart(data) {
       labels: workouts,
       datasets: [
         {
-          label: "Excercises Performed",
+          label: "Exercises Performed",
           backgroundColor: colors,
           data: pounds
         }
@@ -180,7 +178,7 @@ function populateChart(data) {
     options: {
       title: {
         display: true,
-        text: "Excercises Performed"
+        text: "Exercises Performed"
       }
     }
   });
